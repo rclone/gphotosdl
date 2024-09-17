@@ -1,0 +1,96 @@
+---
+# Github Actions build for swift
+# -*- compile-command: "yamllint -f parsable build.yml" -*-
+
+name: build
+
+# Trigger the workflow on push or pull request
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      manual:
+        required: true
+        default: true
+
+jobs:
+  build:
+    if: ${{ github.repository == 'rclone/gphotosdl' || github.event.inputs.manual }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        job_name: ['go1.23', 'go1.22']
+
+        include:
+          - job_name: go1.23
+            os: ubuntu-latest
+            go: '1.23.x'
+            gotests: true
+            integrationtest: true
+            check: true
+
+          - job_name: go1.22
+            os: ubuntu-latest
+            go: '1.22.x'
+            gotests: true
+            integrationtest: true
+            check: false
+
+    name: ${{ matrix.job_name }}
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Print Go version and environment
+        shell: bash
+        run: |
+          printf "Using go at: $(which go)\n"
+          printf "Go version: $(go version)\n"
+          printf "\n\nGo environment:\n\n"
+          go env
+          printf "\n\nSystem environment:\n\n"
+          env
+
+      - name: Go module cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+            ~/.cache/golangci-lint
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Build
+        shell: bash
+        run: |
+          go build ./...
+
+      - name: Unit tests
+        shell: bash
+        run: |
+          go test -v
+        if: matrix.gotests
+
+      - name: Code quality test
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+        if: matrix.check
