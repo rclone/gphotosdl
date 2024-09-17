@@ -12,7 +12,7 @@ This runs a headless browser in the background with an HTTP server which [rclone
 
 First [install rclone](https://rclone.org/install/) and set it up with [google photos](https://rclone.org/googlephotos/).
 
-Next download the gphotosdl binary from the downloads section.
+Next download the latest gphotosdl binary from the [releases page](https://github.com/rclone/gphotosdl/releases/latest).
 
 You will need to run like this first. This will open a browser window which you should use to login to google photos - then close the browser window. You may have to do this again if the integration stops working.
 
