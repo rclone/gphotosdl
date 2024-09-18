@@ -179,6 +179,7 @@ func (g *Gphotos) startBrowser() error {
 		UserDataDir(browserConfig).
 		Preferences(browserPrefs).
 		Set("disable-gpu").
+		Set("disable-audio-output").
 		Logger(logger{})
 
 	url, err := l.Launch()
