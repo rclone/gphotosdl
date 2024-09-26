@@ -12,6 +12,8 @@ This runs a headless browser in the background with an HTTP server which [rclone
 
 First [install rclone](https://rclone.org/install/) and set it up with [google photos](https://rclone.org/googlephotos/).
 
+You will need rclone version v1.69 or later. If v1.69 hasn't been release yet then please use [the latest beta](https://beta.rclone.org/).
+
 Next download the latest gphotosdl binary from the [releases page](https://github.com/rclone/gphotosdl/releases/latest).
 
 You will need to run like this first. This will open a browser window which you should use to login to google photos - then close the browser window. You may have to do this again if the integration stops working.
@@ -40,7 +42,7 @@ Then there is another `gphotosdl` running or there is an orphan browser process 
 
 ## Limitations
 
-- Currently only fetches one image at once. Conceivable could make multiple tabs in the browser to fetch more than one at once.
+- Currently only fetches one image at once. Conceivably could make multiple tabs in the browser to fetch more than one at once.
 - More error checking needed - if it goes wrong then it will hang forever most likely
 - Currently the browser only has one profile so this can only be used with one google photos user. This is easy to fix.
 
