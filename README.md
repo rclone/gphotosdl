@@ -26,7 +26,7 @@ Once you have done this you can run this to run the proxy.
 
 Then supply the parameter `--gphotos-proxy "http://localhost:8282"` to make rclone use the proxy. For example
 
-    rclone copy -vvP --gphotos-proxy "http://localhost:8282" gphotos:media/by-month/2024/2024-09/ /tmp/high-res-media/
+    rclone copy -vvP --gphotos-proxy "http://localhost:8282" "gPhotos:media/by-month/2024/2024-09/" "/tmp/high-res-media/"
 
 Run the `gphotosdl` command with the `-debug` flag for more info and the `-show` flag to see the browser that it is using. These are essential if you are trying to debug a problem.
 
