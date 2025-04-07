@@ -27,6 +27,7 @@ import (
 const (
 	program       = "gphotosdl"
 	gphotosURL    = "https://photos.google.com/"
+	loginURL      = "https://photos.google.com/login"
 	gphotoURLReal = "https://photos.google.com/photo/"
 	gphotoURL     = "https://photos.google.com/lr/photo/" // redirects to gphotosURLReal which uses a different ID
 	photoID       = "AF1QipNJVLe7d5mOh-b4CzFAob1UW-6EpFd0HnCBT3c6"
@@ -414,7 +415,7 @@ func main() {
 	// If login is required, run the browser standalone
 	if *login {
 		slog.Info("Log in to google with the browser that pops up, close it, then re-run this without the -login flag")
-		cmd := exec.Command(browserPath, "--user-data-dir="+browserConfig, gphotosURL)
+		cmd := exec.Command(browserPath, "--user-data-dir="+browserConfig, loginURL)
 		err = cmd.Start()
 		if err != nil {
 			slog.Error("Failed to start browser", "err", err)
